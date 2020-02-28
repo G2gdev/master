@@ -554,6 +554,51 @@ class Order_model extends CI_Model {
 		return $result;
 	}
 	
+	public function getCancelReason($orderid){
+
+		$this->db->select("a.name as cancel_reason ",false)
+				 ->from(TABLES::$ORDER_CANCEL_REASON .' AS b')
+				 ->join(TABLES::$CANCEL_REASON.' AS a','b.reason_id = a.id','left')
+				 ->where('b.orderid',$orderid);
+		$query = $this->db->get();
+        return $result = $query->result_array();
+	}
+
+	public function getCategoriesList() {
+		$this->db->select('*')
+		->from(TABLES::$MENU_MAIN_CATEGORY);
+		$query = $this->db->get();
+		$result = $query->result_array();
+		return $result;
+	}
+
+
+	public function getBrandList() {
+		$this->db->select('*')
+		->from(TABLES::$BRAND);
+		$query = $this->db->get();
+		$result = $query->result_array();
+		return $result;
+	}
+
+	public function getModelList() {
+		$this->db->select('*')
+		->from(TABLES::$MANUFACTURE);
+		$query = $this->db->get();
+		$result = $query->result_array();
+		return $result;
+	}
+
+	public function getServiceList() {
+		$this->db->select('*')
+		->from(TABLES::$MENU_MAIN_SUBCATEGORY);
+		$query = $this->db->get();
+		$result = $query->result_array();
+		return $result;
+	}
+
+
+	
 	public function getOrderLogs($orderid) {
 		$this->db->select("a.*,concat_ws(' ',b.first_name,b.last_name) as csename",false)
 				 ->from(TABLES::$ORDER_LOGS.' AS a')

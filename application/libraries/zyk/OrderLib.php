@@ -157,7 +157,7 @@ class OrderLib {
 		$this->CI->load->model ('orders/Order_model','order');
 		return $this->CI->order->getOrderDetailsByOrderId($orderid);
 	}
-	
+
 	public function getOrderInfoByOrderId($orderid) {
 		$this->CI->load->model ('orders/Order_model','order');
 		return $this->CI->order->getOrderInfoByOrderId($orderid);
@@ -187,7 +187,32 @@ class OrderLib {
 		$this->CI->load->model ('orders/Order_model','order');
 		return $this->CI->order->getOrderLogs($orderid);
 	}
+
+	public function getCancelReason($orderid){
+		$this->CI->load->model ('orders/Order_model','order');
+		return $this->CI->order->getCancelReason($orderid);
+	}
+
+	public function getCategoriesList(){
+		$this->CI->load->model ('orders/Order_model','order');
+		return $this->CI->order->getCategoriesList();
+	}
+
+	public function getModelList(){
+		$this->CI->load->model ('orders/Order_model','order');
+		return $this->CI->order->getModelList();
+	}
 	
+	public function getBrandList(){
+		$this->CI->load->model ('orders/Order_model','order');
+		return $this->CI->order->getBrandList();
+	}
+
+	public function getServiceList(){
+		$this->CI->load->model ('orders/Order_model','order');
+		return $this->CI->order->getServiceList();
+	}
+
 	public function addOrderItems($params) {
 		$this->CI->load->model ('orders/Order_model','order');
 		return $this->CI->order->addOrderItems($params);

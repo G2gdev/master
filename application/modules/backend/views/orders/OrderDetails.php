@@ -56,6 +56,7 @@
                 	<!--<a href="" role="button" class="btn" data-toggle="modal" style="margin-top: 5px;margin-left:342px;" onclick="openInNewTab('<?php echo base_url();?>admin/order/view_details1/<?php echo $order['orderid'];?>');">Profile History</a>-->
               	</div>
                	<div class="panel-body">
+              	
                		<div class="row">
 	               		<div class="col-sm-5">
 	               			<b>ORDER ID</b>
@@ -148,6 +149,7 @@
 	               		<div class="col-sm-5">
 	               			<b>Visiting Slot</b>
 	               		</div>
+
 	               		<div class="col-sm-7">
 	               			<span id="pickup_slot_lbl"><?php echo $order['slot'];?> &nbsp;<a class="btn btn-xs btn-info" href="javascript:editPickupSlot();"><i class="fa fa-pencil"></i></a></span>
 	               			<span id="pickup_slot_input" style="display:none;">
@@ -162,6 +164,7 @@
 	               			<div class="pull-right"><a href="#reSchedulePickup" role="button" data-toggle="modal" onclick="updateSlotsPick();">Re-Schedule</a></div>
 	               			<?php } ?>
 	               		</div>
+
 	               	</div>
 	           <!--     	<?php //if(!empty($order['delivery_date'])) { ?>
                		<div class="row">
@@ -179,7 +182,17 @@
 	               			<b>Category</b>
 	               		</div>
 	               		<div class="col-sm-7">
-	               			<?php echo $order['category'];?>
+
+	               			<span id="category_edit"><?php echo $order['category'];?> &nbsp;<a class="btn btn-xs btn-info" href="javascript:editCategory();"><i class="fa fa-pencil"></i></a></span>
+	               			<span id="category_input" style="display:none;">
+	               				<select name="category_edit_selectbox" id="category_edit_selectbox" class="">
+									<option value=""> Select Category </option>
+									<?php foreach ($category as $row) { ?>
+									<option value="<?php echo $row['id'];?>" <?php if($order['name'] == $row['name']) {?>selected<?php }?>><?php echo $row['name'];?></option>
+									<?php } ?>
+								</select>
+	               			&nbsp;&nbsp;<a href="javascript:updateCategroy(<?php echo $order['orderid'];?>);" class="btn btn-sm btn-primary" >Update</a></span>
+	               		
 	               		</div>
                		</div>
                		<div class="row">
@@ -187,7 +200,17 @@
 	               			<b>Brand</b>
 	               		</div>
 	               		<div class="col-sm-7">
-	               			<?php echo $order['brand'];?>
+	               			
+	               			<span id="brand_edit"><?php echo $order['brand'];?> &nbsp;<a class="btn btn-xs btn-info" href="javascript:editBrand();"><i class="fa fa-pencil"></i></a></span>
+	               			<span id="brand_input" style="display:none;">
+	               				<select name="brand_edit_selectbox" id="brand_edit_selectbox" class="">
+									<option value=""> Select Brand </option>
+									<?php foreach ($brands as $row) { ?>
+									<option value="<?php echo $row['id'];?>" <?php if($order['name'] == $row['name']) {?>selected<?php }?>><?php echo $row['name'];?></option>
+									<?php } ?>
+								</select>
+	               			&nbsp;&nbsp;<a href="javascript:updateBrand(<?php echo $order['orderid'];?>);" class="btn btn-sm btn-primary" >Update</a></span>
+
 	               		</div>
                		</div>
                		<div class="row">
@@ -195,7 +218,18 @@
 	               			<b>Model</b>
 	               		</div>
 	               		<div class="col-sm-7">
-	               			<?php echo $order['model'];?>
+	               		
+	               			<span id="model_edit"><?php echo $order['model'];?> &nbsp;<a class="btn btn-xs btn-info" href="javascript:editModel();"><i class="fa fa-pencil"></i></a></span>
+	               			<span id="model_input" style="display:none;">
+	               				<select name="model_edit_selectbox" id="model_edit_selectbox" class="">
+									<option value=""> Select Model </option>
+									<?php foreach ($models as $row) { ?>
+									<option value="<?php echo $row['id'];?>" <?php if($order['name'] == $row['name']) {?>selected<?php }?>><?php echo $row['name'];?></option>
+									<?php } ?>
+								</select>
+	               			&nbsp;&nbsp;<a href="javascript:updateModel(<?php echo $order['orderid'];?>);" class="btn btn-sm btn-primary" >Update</a></span>
+
+
 	               		</div>
                		</div>
                		<div class="row">
@@ -203,7 +237,18 @@
 	               			<b>Service</b>
 	               		</div>
 	               		<div class="col-sm-7">
-	               			<?php echo $order['subcategory'];?>
+	               			
+	               			<span id="service_edit"><?php echo $order['subcategory'];?> &nbsp;<a class="btn btn-xs btn-info" href="javascript:editService();"><i class="fa fa-pencil"></i></a></span>
+	               			<span id="service_input" style="display:none;">
+	               				<select name="service_edit_selectbox" id="service_edit_selectbox" class="">
+									<option value=""> Select Sub-Category </option>
+									<?php foreach ($services as $row) { ?>
+									<option value="<?php echo $row['id'];?>" <?php if($order['name'] == $row['name']) {?>selected<?php }?>><?php echo $row['name'];?></option>
+									<?php } ?>
+								</select>
+	               			&nbsp;&nbsp;<a href="javascript:updateService(<?php echo $order['orderid'];?>);" class="btn btn-sm btn-primary" >Update</a></span>
+
+
 	               		</div>
                		</div>
                		<div class="row">
@@ -373,8 +418,16 @@
                 	Order Delivery Completed
                 	<?php } else { ?>
                 	Order Cancelled
-                	<?php } ?></b>
-                	</span>
+                	 </span>	
+                	<br>
+                	<b>Cancel Reason - </b><?php echo $cancelReason[0]['cancel_reason']; ?>
+					
+               
+
+                	
+               	<?php } ?></b>
+                	
+
               	</div>
               	<?php if(!empty($order['assign_vendor_id'] != 0)){?>
               	<div class="panel-heading">
@@ -389,16 +442,17 @@
               	<?php } ?>
                	<div class="panel-body" style="padding:10px;">
                		<div>
+
+		               		<a href="#cancelModel" role="button" class="btn btn-danger" data-toggle="modal" style="margin-top: 5px;">Cancel Order</a>
                			<?php if($order['status'] == 0){ ?>
                				<a href="#deliveryModel" role="button" class="btn btn-warning" data-toggle="modal" style="margin-top: 5px;">Assign Garage</a>
-               				&nbsp;
-		               		<a href="#cancelModel" role="button" class="btn btn-danger" data-toggle="modal" style="margin-top: 5px;">Cancel Order</a>
+               				
 		               	<?php } else if($order['status'] == 1){ ?>
 		               		<a href="#pickedupModel" role="button" class="btn btn-success" data-toggle="modal" style="margin-top: 5px;">Generate Estimate</a>
-		               		&nbsp;
-		               		<a href="#cancelModel" role="button" class="btn btn-danger" data-toggle="modal" style="margin-top: 5px;">Cancel Order</a>
+		               		
 		               	<?php } else if($order['status'] == 2) { ?>
 		               	    <a href="javascript:ConfirmApproval(<?php echo $order['orderid'];?>);" role="button" class="btn btn-success" style="margin-top: 5px;">Confirm Estimate</a>
+
 		               	<?php } else if($order['status'] == 3) { ?>
 		               	   <a href="javascript:markworkcompleted(<?php echo $order['orderid'];?>);" role="button" class="btn btn-success" style="margin-top: 5px;">Mark Work Completed</a>
 		               	<?php } else if($order['status'] == 4) { ?>
@@ -443,7 +497,9 @@
                					<button type="submit" class="btn btn-primary" onclick="addComment(<?php echo $order['orderid'];?>)">Add Comment</button>
                				</div>
                			</div>
-               			<?php if(!empty($admin_comments)){?>
+               			<?php if(!empty($admin_comments)){
+
+               				?>
 	               			<div class="col-sm-12"><b><u>Comments</u></b></div>
 	               			<?php foreach($admin_comments as $ordercomment){?>
 		               			<div class="col-sm-12">
@@ -509,7 +565,8 @@
 	               			</tr>
 	               		</thead>
 	               		<tbody>
-	               			<?php foreach ($logs as $log) {?>
+	               			<?php 
+	               				foreach ($logs as $log) {?>
 	               			<tr>
 	               				<td><?php echo $log['comment'];?></td>
 	               				<td><?php echo date('j M Y h:i A',strtotime($log['created_date']));?></td>
@@ -952,6 +1009,7 @@
           	<div class="modal-header">
               	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" style="color:#fff"> X </span><span class="sr-only">Close</span></button>
               	<h4 class="modal-title" id="myModalLabel">Assign Garage</h4>
+              	<?php echo print_r($cancelReason); ?>
           	</div>
           	<div class="modal-body" style="background-color:#f5f5f5;">
               	<div class="row" style="padding:10px">
@@ -2062,6 +2120,89 @@ function updatePickupSlot(orderid) {
 		window.location.reload();
 	},'json');
 }
+
+
+function editCategory(){
+	$("#category_edit").hide();
+	$("#category_input").show();
+}
+
+function updateCategroy(orderid) {
+	if($("#category_edit_selectbox").val() == "")
+	{
+		alert("Please select visiting slot.");
+		return false;
+	}
+	ajaxindicatorstart("Please hang on.. while we update ..");
+	$.post(base_url+"admin/order/updateCategory/"+orderid,{ category_id: $("#category_edit_selectbox").val() }, function(data){
+		ajaxindicatorstop();
+		alert(data.msg);
+		window.location.reload();
+	},'json');
+}
+
+
+function editBrand(){
+	$("#brand_edit").hide();
+	$("#brand_input").show();
+}
+
+function updateBrand(orderid) {
+	if($("#brand_edit_selectbox").val() == "")
+	{
+		alert("Please select visiting slot.");
+		return false;
+	}
+	ajaxindicatorstart("Please hang on.. while we update ..");
+	$.post(base_url+"admin/order/updateBrand/"+orderid,{ brand_id: $("#brand_edit_selectbox").val() }, function(data){
+		ajaxindicatorstop();
+		alert(data.msg);
+		window.location.reload();
+	},'json');
+}
+
+
+function editModel(){
+	$("#model_edit").hide();
+	$("#model_input").show();
+}
+
+function updateModel(orderid) {
+	if($("#model_edit_selectbox").val() == "")
+	{
+		alert("Please select visiting slot.");
+		return false;
+	}
+	ajaxindicatorstart("Please hang on.. while we update ..");
+	$.post(base_url+"admin/order/updateVehicleModel/"+orderid,{ model_id: $("#model_edit_selectbox").val() }, function(data){
+		ajaxindicatorstop();
+		alert(data.msg);
+		window.location.reload();
+	},'json');
+}
+
+
+
+function editService(){
+	$("#service_edit").hide();
+	$("#service_input").show();
+}
+
+function updateService(orderid) {
+	if($("#service_edit_selectbox").val() == "")
+	{
+		alert("Please select visiting slot.");
+		return false;
+	}
+	ajaxindicatorstart("Please hang on.. while we update ..");
+	$.post(base_url+"admin/order/updateVehicleService/"+orderid,{ service_id: $("#service_edit_selectbox").val() }, function(data){
+		ajaxindicatorstop();
+		alert(data.msg);
+		window.location.reload();
+	},'json');
+}
+
+
 
 function reschedulePickup(orderid) {
 	ajaxindicatorstart("Please hang on.. while we update ..");

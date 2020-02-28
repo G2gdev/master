@@ -23,6 +23,8 @@
          	<table class="table table-bordered">
 					  <thead>
 					    <tr>
+					      <th scope="col">Order ID</th>
+					      <th scope="col">Vehicle Type</th>	
 					      <th scope="col">Order Date</th>
 					      <th scope="col">Pickup Date</th>
 					      <th scope="col">Pickup Slot</th>
@@ -30,9 +32,17 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-			<?php if(!empty($orders)){?>			
+			<?php if(!empty($orders)){ ?>			
 				<?php foreach($orders as $order){ ?>
 					    <tr>
+					      <td><?php echo $order['orderid'];?></td>
+					      <td>
+					      	<?php if($order['category_id'] == '1') { ?> 
+				          		<img src="<?php echo asset_url();?>images/service/bike.png" class="vi-img"/>
+				          	<?php } else { ?>
+				          		<img src="<?php echo asset_url();?>images/service/car.png" class="vi-img"/>
+				          	<?php } ?>
+					      </td>	
 					      <th scope="row"><?php echo date('d-m-Y',strtotime($order['ordered_on']));?></th>
 					      <td><?php echo date('d-m-Y',strtotime($order['pickup_date']));?></td>
 					      <td><?php echo $order['slot'];?></td>

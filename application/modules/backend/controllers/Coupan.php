@@ -56,9 +56,9 @@ Class Coupan extends MX_Controller {
 		$brand_id = $this->input->post('brand_id');
 		$brandid = implode(",",$brand_id);
 		$coupon['brand_id'] = $brandid;
-		/*$coupon['model_id'] = $this->input->post('model_id');
-		$coupon['subcategory_id'] = $this->input->post('subcategory_id');
-		$coupon['service_id'] = $this->input->post('service_id');*/
+		$coupon['model_id'] = $this->input->post('model_id');
+		/*$coupon['subcategory_id'] = $this->input->post('subcategory_id');*/
+		$coupon['service_id'] = $this->input->post('service_id');
 		$coupon['status'] = $this->input->post('status');
 		//$coupon['discount']=$this->input->post('discount');
 		//$coupon['max_discount']=$this->input->post('max_discount');
@@ -194,7 +194,22 @@ Class Coupan extends MX_Controller {
 	public function addCoupon()
 	{
 		$this->load->library('zyk/ServiceLib');
+		$this->load->library('zyk/OrderLib');
 		$categories = $this->servicelib->getActiveCategories();
+
+		//for brand
+		$brand = $this->orderlib->getBrandList();	
+
+		//for model
+		$model = $this->orderlib->getModelList();
+
+		//for service list
+		$vehicleService = $this->orderlib->getServiceList();
+
+		$this->template->set('brands', $brand);
+		$this->template->set('models', $model);
+		$this->template->set('services', $vehicleService);
+
 		$this->template->set('categories',$categories);
 		$this->template->set_theme('default_theme');
 		$this->template->set_layout ('backend')

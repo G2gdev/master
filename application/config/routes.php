@@ -426,6 +426,13 @@ $route['admin/order/cancel/([0-9]+)'] = 'backend/order/cancelOrder/$1';
 $route['admin/order/delete/([0-9]+)'] = 'backend/order/deleteOrder/$1';
 $route['admin/order/updatepickupdate/([0-9]+)'] = 'backend/order/updatePickUpDate/$1';
 $route['admin/order/updatepickupslot/([0-9]+)'] = 'backend/order/updatePickUpSlot/$1';
+
+$route['admin/order/updateCategory/([0-9]+)'] = 'backend/order/updateCategory/$1';
+$route['admin/order/updateBrand/([0-9]+)'] = 'backend/order/updateBrand/$1';
+$route['admin/order/updateVehicleModel/([0-9]+)'] = 'backend/order/updateVehicleModel/$1';
+$route['admin/order/updateVehicleService/([0-9]+)'] = 'backend/order/updateVehicleService/$1';
+
+
 $route['admin/order/reschedulepickup/([0-9]+)'] = 'backend/order/reschedulePickUp/$1';
 $route['admin/order/updatedeliverydate/([0-9]+)'] = 'backend/order/updateDeliveryDate/$1';
 $route['admin/order/updatedeliveryslot/([0-9]+)'] = 'backend/order/updateDeliverySlot/$1';

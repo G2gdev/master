@@ -166,20 +166,20 @@
 								
 			<!-- new ongoing order starts-->
 			  <div class="ongoing-order-new">
-			    <?php //print_r($orders); ?>
 			    <?php $i == 0; ?>
 			    <?php foreach($orders as $order){ ?>
-			    
+			    <?php //echo json_encode($order); ?>
 			    <?php $i++; ?>
 				  <a href="#" data-toggle="#div<?php echo $i ;?>" class="track-order">
 				    <div class="head-sec">
 				      <div class="row">
 				        <div class="col-sm-4 col-xs-4">
-				          <h3>ORDER ID : <?php echo $order['ordercode']?>
-				          <?php if($order['vehicaltype'] == '1') { ?> 
-				          <img src="<?php echo asset_url();?>images/service/1521543289.2262item.png" class="vi-img"/>
+				          <h3>ORDER ID : <?php echo $order['orderid']?>	
+				          <h3>ORDER CODE : <?php echo $order['ordercode']?>
+				          <?php if($order['vehicle_type'] == '1') { ?> 
+				          <img src="<?php echo asset_url();?>images/service/bike.png" class="vi-img"/>
 				          <?php } else { ?>
-				          <img src="<?php echo asset_url();?>images/service/1521543725.146item.png" class="vi-img"/>
+				          <img src="<?php echo asset_url();?>images/service/car.png" class="vi-img"/>
 				          <?php } ?>
 				          </h3>
 				          <p>Order Date  : <?php echo date('j M Y', strtotime($order['pickup_date']));?></p>
@@ -428,7 +428,7 @@
 							      <div class="col-lg-2 col-xs-2  text-center">
 										<div class="nk-footer-text">
 											<!-- <img src="img/Thankucheck.png" class="img-responsive" /> -->
-											<input type="checkbox" name="vehicle" value="Bike">
+											<input type="checkbox" name="vehicle" value="<?php echo $order['orderid']; 	?>">
 
 										</div>
 									</div>
@@ -550,27 +550,29 @@
 								<div class="row">
 
 									<div class="col-lg-12 col-xs-12 text-center">
-									<br>
+									 
+											
 										<div class="nk-footer-text">
 											<!-- <img src="img/Thankucheck.png" class="img-responsive" /> -->
 											<?php if($order['grand_total'] > 0) { ?>
 											<p class="foterp" style="font-weight: inherit;">
-											   <button type="button" class="searchbtn1" onclick="generateInvoice(<?php echo $order['orderid'];?>)">INVOICE</button>
+											   <button type="button" class="searchbtn1" onclick="confirm(<?php echo $order['orderid']; ?>)">Confirm Invoice</button>
 											</p>
-		             <?php } ?>
-		             
+		             							<?php } ?>
+		             					</div>
 
-		              <?php 
-		              	$orderBill = $order['orderbill']; 
-		             	$invoice = $orderBill[0]['invoice_status'];
-		              if($invoice == 1) { ?>
-		              		<p class="foterp" class="btn-cls">
-							  <button type="button" class="searchbtn1" style="background: #faba03; border: 2px solid #faba03; font-size: 18px;"> PAY NOW</button>
-		               		<a href="<?php echo base_url();?><?php echo $order['invoice_url'];?>" target="_blank"><button type="button"class="invoice-btn"> VIEW INVOICE</button></a>
-													           </p>
-		              <?php }?>
+						              <?php 
+						              	$orderBill = $order['orderbill'];
+						              	//echo json_encode($orderBill); 
+						             	$invoice = $orderBill[0]['invoice_status'];
+						              if($invoice == 1) { ?>
+						              		<br>
+						              		<p class="foterp" class="btn-cls">
+											<a href="<?php echo base_url();?><?php echo $order['invoice_url'];?>" target="_blank"><button type="button"class="invoice-btn"> VIEW INVOICE</button></a>
+																	           </p>
+						              <?php }?>
 											
-										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -722,6 +724,16 @@ jQuery(window).load(function() {
    <?php }  } ?>
    <?php } ?>
 });
+
+
+function confirm(){
+	var favorite = [];
+            $.each($("input[name='vehicle']:checked"), function(){            
+                favorite.push($(this).val());
+            });
+            alert("Section_Id: " + favorite.join(", "));
+}
+
 </script>
 <script>
 function ajaxindicatorstart(text)

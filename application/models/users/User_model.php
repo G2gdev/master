@@ -541,10 +541,10 @@ class User_model extends CI_Model {
 	
 	public function getOngoingOrders($userid)
 	{
-		$this->db->select('e.name as model,c.name as vehicle_type,a.orderid,a.ordercode,a.pickup_date,a.order_amount,a.discount,a.net_total,a.adjustment,a.grand_total,b.garage_name,d.name as subcategory');
+		$this->db->select('i.orderid, i.invoice_url,e.name as model,d.category_id as vehicle_type,a.orderid,a.ordercode,a.pickup_date,a.order_amount,a.discount,a.net_total,a.adjustment,a.grand_total,b.garage_name,d.name as subcategory');
 		$this->db->from (TABLES::$ORDER.' AS a');
 		$this->db->join (TABLES::$RESTAURANT.' AS b','a.vendor_id=b.id','left' );
-		//$this->db->join ( TABLES::$INVOICE.' AS c','a.orderid=c.orderid','left' );
+		$this->db->join ( TABLES::$INVOICE.' AS i','a.orderid=i.orderid','left' );
 		$this->db->join (TABLES::$MENU_MAIN_SUBCATEGORY.' AS d','a.subcategory_id=d.id','left' );
 		$this->db->join ('category AS c','c.id=a.category_id','left' );
 		$this->db->join ('manufacturer AS e','e.id=a.vehicle_model','left' );

@@ -545,7 +545,21 @@ class Order extends MX_Controller {
 		// print_r($items);exit ;
 
 
+		$cancelReason = $this->orderlib->getCancelReason($orderid);	
+		
+		//for categories
+		$categories = $this->orderlib->getCategoriesList();	
 
+		//for brand
+		$brand = $this->orderlib->getBrandList();	
+
+		//for model
+		$model = $this->orderlib->getModelList();
+
+		//for service list
+		$vehicleService = $this->orderlib->getServiceList();
+
+		
 	    $logs = $this->orderlib->getOrderLogs($orderid);
 	    $admin_comments = $this->orderlib->getAdminComment($orderid);
 		//$executives = $this->general->getActiveFieldExecutives();
@@ -555,7 +569,7 @@ class Order extends MX_Controller {
 		$wallet = $this->userlib->getWalletBalance($orders[0]['userid']);
 		$reasons = $this->general->getActiveReasons();
 		$this->template->set('order',$orders[0]);
-		//$this->template->set('products',$product);
+		$this->template->set('products',$product);
 		$this->template->set('items',$items);
 		$this->template->set('status',$status);
 		$this->template->set('garage',$garage);
@@ -564,12 +578,17 @@ class Order extends MX_Controller {
 		$this->template->set('catofsubcatbysubid',$catofsubcatbysubid);
 		$this->template->set('logs',$logs);
 		$this->template->set('admin_comments',$admin_comments);
+		$this->template->set('cancelReason', $cancelReason);
+		$this->template->set('brands', $brand);
+		$this->template->set('models', $model);
+		$this->template->set('services', $vehicleService);
 	//	$this->template->set('executives',$executives);
 	//	$this->template->set('pickupslots',$pickupslots);
 	//	$this->template->set('deliveryslots',$deliveryslots);
 		$this->template->set('visitingslots',$visitingslots);
 		$this->template->set('wallet',$wallet);
 		$this->template->set('reasons',$reasons);
+		$this->template->set('category',$categories);
 		$this->template->set_theme('default_theme');
 		$this->template->set_layout ('backend')
 		->title ( 'Administrator | Order' )
@@ -1538,6 +1557,60 @@ class Order extends MX_Controller {
 		$response['msg'] = 'Updated successfully.';
 		echo json_encode($response);
 	}
+
+	public function updateCategory($orderid) {
+		$this->load->library('zyk/OrderLib');
+		$orders = $this->orderlib->getOrderDetailsByOrderId($orderid);
+		$category_id = $this->input->post('category_id');
+		$orderdata = array();
+		$orderdata['orderid'] = $orderid;
+		$orderdata['category_id'] = $category_id;
+		$this->orderlib->updateOrder($orderdata);
+		$response['status'] = 1;
+		$response['msg'] = 'Updated successfully.';
+		echo json_encode($response);
+	}
+
+	public function updateBrand($orderid) {
+		$this->load->library('zyk/OrderLib');
+		$orders = $this->orderlib->getOrderDetailsByOrderId($orderid);
+		$brand_id = $this->input->post('brand_id');
+		$orderdata = array();
+		$orderdata['orderid'] = $orderid;
+		$orderdata['brand_id'] = $brand_id;
+		$this->orderlib->updateOrder($orderdata);
+		$response['status'] = 1;
+		$response['msg'] = 'Updated successfully.';
+		echo json_encode($response);
+	}
+
+	public function updateVehicleModel($orderid) {
+		$this->load->library('zyk/OrderLib');
+		$orders = $this->orderlib->getOrderDetailsByOrderId($orderid);
+		$model_id = $this->input->post('model_id');
+		$orderdata = array();
+		$orderdata['orderid'] = $orderid;
+		$orderdata['vehicle_model'] = $model_id;
+		$this->orderlib->updateOrder($orderdata);
+		$response['status'] = 1;
+		$response['msg'] = 'Updated successfully.';
+		echo json_encode($response);
+	}
+
+	public function updateVehicleService($orderid) {
+		$this->load->library('zyk/OrderLib');
+		$orders = $this->orderlib->getOrderDetailsByOrderId($orderid);
+		$service_id = $this->input->post('service_id');
+		$orderdata = array();
+		$orderdata['orderid'] = $orderid;
+		$orderdata['subcategory_id'] = $service_id;
+		$this->orderlib->updateOrder($orderdata);
+		$response['status'] = 1;
+		$response['msg'] = 'Updated successfully.';
+		echo json_encode($response);
+	}
+
+
 	
 	public function rescheduleDelivery($orderid) {
 		$this->load->library('zyk/OrderLib');

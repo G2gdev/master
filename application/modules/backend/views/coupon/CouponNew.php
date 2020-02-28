@@ -228,43 +228,37 @@
 									</div>
 							   </div>
 							   
-							    <!--<div class="row">
+							    <div class="row">
 									<div class="col-md-6 margin-bottom-5">
 										<div class="form-group" id="error-name">
 											<label class="control-label col-sm-5">Model<span class='text-danger'>*</span></label>
 											 <div class="col-sm-10">
-											<select name="model_id" id="model_id" class="form-control">
-													<option value=""> Select Model</option>	
-												</select>
-												</div>
+    											<select name="model_id" id="model_id" class="form-control">
+    												<option value=""> Select Model</option>	
+                                                       <?php foreach ($models as $v) { ?>
+                                                        <option value="<?php echo $v['id'];?>"><?php echo $v['name'];?></option>
+                                                        <?php } ?>
+    												</select>
+										   </div>
 										</div>
-										<div class="messageContainer col-sm-4"></div>
 									</div>
-									<div class="col-md-6 margin-bottom-5">
-												<div class="form-group" id="error-name">
-											<label class="control-label col-sm-5">Subcategory<span class='text-danger'>*</span></label>
-											 <div class="col-sm-10">
-											<select name="subcategory_id" id="subcategory_id" class="form-control">
-													<option value=""> Select Subcategory</option>						
-											</select>
-											</div>
-										</div>
-										<div class="messageContainer col-sm-4"></div>
-									</div>
-                                </div>-->
-                                
-                                <div class="row">
-                                    <!--<div class="col-md-6 margin-bottom-5">
+
+                                    <div class="col-md-6 margin-bottom-5">
 												<div class="form-group" id="error-name">
 											<label class="control-label col-sm-5">Service<span class='text-danger'>*</span></label>
 											 <div class="col-sm-10">
 											<select name="service_id" id="service_id" class="form-control">
-													<option value=""> Select Service</option>						
+													<option> Select Service</option>
+                                                    <option value="1"> Breakdown</option>
+                                                    <option value="2"> Pick n' Drop</option>
+                                                    <option value="3"> Doorstep</option>
+                                                    <option value="4"> Walk-in</option>
+                                                    						
 											</select>
 											</div>
 										</div>
 										<div class="messageContainer col-sm-4"></div>
-									</div>-->
+									</div>
 									
                                
                                     <div class="col-lg-6 margin-bottom-5">
@@ -501,8 +495,8 @@ $(document).ready(function(){
 			       }	   
 	         },'json');   
        });
-
-	/* $("#brand_id").change(function() {
+/*
+	 $("#brand_id").change(function() {
 		var brand_id =  $('#brand_id').val();       
 			console.log(brand_id);	    
 			  $.post(base_url+"admin/modelbybrandid/", {brand_id : brand_id}, function(data)
@@ -534,11 +528,12 @@ $(document).ready(function(){
 	               },'json');   
                });
 
-	$("#subcategory_id").change(function() 
+	$("#category_id").change(function() 
 			{
-		var subcat_id =  $('#subcategory_id').val();       
+                alert('in category change');
+		var cat_id =  $('#category_id').val();       
 			console.log(subcat_id);	    
-			  $.post(base_url+"admin/servicebycatid/", {subcat_id : subcat_id}, function(data)
+			  $.post(base_url+"admin/servicebycatid/", {subcat_id : cat_id}, function(data)
 					  {
 				  $('#service_id').empty();$('#service_id').append("<option value=''>"+'Select Service'+"</option>");		    
 			   if(data.length > 0)
@@ -549,9 +544,9 @@ $(document).ready(function(){
 					            }	    
 			              }	   
 	               },'json');   
-               });
-     */
-    });
+               });  */
+     
+    });  
 
 couponType(0);
 function couponType(coupon_type){
